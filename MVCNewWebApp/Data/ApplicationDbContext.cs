@@ -14,5 +14,8 @@ namespace MVCNewWebApp.Data
         {
         }
         public DbSet<MVCNewWebApp.Models.Employee> Employee { get; set; }
+        public DbSet<MVCNewWebApp.Models.Department> Department { get; set; }
+        public DbSet<MVCNewWebApp.Models.Person> Person { get; set; }
+        public DbSet<MVCNewWebApp.Models.Views.PersonAddressView> PersonAddressView { get; set; }
     }
 }

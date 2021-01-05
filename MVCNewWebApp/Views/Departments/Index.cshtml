@@ -1,0 +1,104 @@
+﻿@model IEnumerable<MVCNewWebApp.Models.Department>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+
+<form method="get" asp-action="Index">
+    <label for="Field"><b>Choose a field:</b></label>
+    <select name="DepFields" id="searchBy">
+
+        <option value="DeptNo">DeptNo</option>
+        <option value="DeptName">DeptName</option>
+        <option value="DeptLocation">DeptLocation</option>
+        <option value="EmployeeID">EmployeeID</option>
+
+
+    </select>
+    @Html.TextBox("search")
+    <input type="submit" value="Search" id="searchbtn" />
+</form>
+
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DeptNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeptName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeptLocation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeID)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="DataSearching">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DeptName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DeptLocation)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Employee.EmployeeID)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.DeptNo">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.DeptNo">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.DeptNo">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#search").keyup(function () {
+            var searchBy = $("#searchBy").val();
+            var searchValue = $("#search").val();
+            var SetData = $("#DataSearching");
+            SetData.html("");
+            $.ajax({
+                type: "post",
+                url: "/Departments/GetResult?searchBy=" + searchBy + "&searchValue=" + searchValue,
+                contentType: "html",
+                success: function (result) {
+                    if (result.length == 0) {
+                        SetData.append('<tr><td colspan=4>No Match Found</td></tr>');
+                    } else {
+                        $.each(result, function (index, value) {
+                            var Data = "<tr>"
+                                +
+                                "<td>" + value.deptNo + "</td>" +
+                                "<td>" + value.deptName + "</td>" +
+                                "<td>" + value.deptLocation + "</td>" +
+                                "<td>" + value.employeeID + "</td>" +
+                                " </tr>";
+                            SetData.append(Data);
+
+                        });
+                    }
+                }
+            });
+        });
+    });
+</script>
+

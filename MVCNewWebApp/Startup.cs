@@ -12,6 +12,8 @@ using MVCNewWebApp.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MVCWebApp.Middleware;
+using Microsoft.AspNetCore.Http;
 
 namespace MVCNewWebApp
 {
@@ -42,28 +44,58 @@ namespace MVCNewWebApp
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
+                //app.UseDatabaseErrorPage();
             }
             else
             {
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                //app.UseHsts();
             }
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
+            //app.UseHttpsRedirection();
+            //app.UseStaticFiles();
 
-            app.UseRouting();
+            //app.UseRouting();
 
-            app.UseAuthentication();
-            app.UseAuthorization();
+            //app.UseAuthentication();
+            //app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapControllerRoute(
+            //        name: "default",
+            //        pattern: "{controller=Home}/{action=Index}/{id?}");
+            //    endpoints.MapRazorPages();
+            //});
+
+
+
+            // when using app.Use, we have to pass the handle to the next middle ware
+            //app.Use(async (context, next) =>
+            //{
+            //    await context.Response.WriteAsync("First Middleware");
+            //    await next();
+            //});
+
+            //app.Use(async (context, next) =>
+            //{
+            //    await context.Response.WriteAsync("Second Middleware");
+            //    await next();
+            //});
+            ////cutom middleware | Check Middleware folder
+            //app.UseMyCustomMiddleware();
+
+            //app.Run(async (context) =>
+            //{
+            //    await context.Response.WriteAsync("Third and last Middleware");
+            //});
+            app.Use(async (context, next) =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapRazorPages();
+                if (context.Request.Path.Equals("/dotnetfunda"))
+                {
+                    context.Response.Redirect("http://www.dotnetfunda.com");
+                    return;
+                }
             });
         }
     }

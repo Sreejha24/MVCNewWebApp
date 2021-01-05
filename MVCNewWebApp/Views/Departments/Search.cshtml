@@ -1,0 +1,54 @@
+﻿@model IEnumerable<MVCNewWebApp.Models.Department>
+
+@{
+    ViewData["Title"] = "SearchById";
+}
+
+<h1>SearchById</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table ">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DeptNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeptName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeptLocation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeID)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.DeptNo)
+                </td>
+                <td>
+                    @Html.DisplayNameFor(model => model.DeptName)
+                </td>
+                <td>
+                    @Html.DisplayNameFor(model => model.DeptLocation)
+                </td>
+                <td>
+                    @Html.DisplayNameFor(model => model.EmployeeID)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.DeptNo">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.DeptNo">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.DeptNo">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

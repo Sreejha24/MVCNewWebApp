@@ -23,6 +23,11 @@ namespace MVCNewWebApp.Controllers
             return View();
         }
 
+        public IActionResult Middleware()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();
